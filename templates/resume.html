@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Resume Category Prediction</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Google Fonts: Elegant, modern -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* All your existing CSS stays unchanged */
+      body,
+      html {
+        height: 100%;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        font-family: "Montserrat", "Roboto", sans-serif;
+        color: #f5f7fa;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 3rem 1rem;
+      }
+
+      .container-custom {
+        background-color: rgba(30, 41, 59, 0.95);
+        border-radius: 15px;
+        padding: 3rem 3.5rem;
+        margin-bottom: 2.5rem;
+        max-width: 600px;
+        width: 100%;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+        transition: box-shadow 0.3s ease;
+      }
+
+      .container-custom:hover {
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.85);
+      }
+
+      h1,
+      h2 {
+        font-weight: 700;
+        margin-bottom: 2rem;
+        text-align: center;
+        letter-spacing: 1.2px;
+      }
+
+      p,
+      ul li {
+        font-size: 1.125rem;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+        text-align: center;
+        color: #d1d5db;
+      }
+
+      ul {
+        padding-left: 0;
+        list-style: none;
+        max-width: 400px;
+        margin: 0 auto 2rem auto;
+      }
+
+      ul li {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 10px 15px;
+        cursor: default;
+        transition: none;
+      }
+
+      form {
+        max-width: 420px;
+        margin: 0 auto;
+      }
+
+      .form-control[type="file"] {
+        opacity: 0;
+        position: absolute;
+        z-index: 2;
+        width: 100%;
+        height: 50px;
+        cursor: pointer;
+      }
+
+      .custom-file-label {
+        display: inline-block;
+        background-color: #1e293b;
+        color: #e0e7ff;
+        padding: 12px 20px;
+        border-radius: 8px;
+        width: 100%;
+        text-align: center;
+        border: 2px solid #3b82f6;
+        cursor: pointer;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+        user-select: none;
+      }
+
+      .custom-file-label:hover {
+        background-color: #3b82f6;
+        border-color: #60a5fa;
+        color: white;
+      }
+
+      .btn-custom {
+        background: linear-gradient(45deg, #10b981, #059669);
+        border: none;
+        font-weight: 600;
+        font-size: 1.1rem;
+        padding: 12px 35px;
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(5, 150, 105, 0.5);
+        transition: background 0.4s ease, box-shadow 0.4s ease;
+        color: white;
+        cursor: pointer;
+        width: 100%;
+        max-width: 180px;
+        margin: 0 auto;
+        display: block;
+        user-select: none;
+      }
+
+      .btn-custom:hover,
+      .btn-custom:focus {
+        background: linear-gradient(45deg, #059669, #047857);
+        box-shadow: 0 10px 20px rgba(4, 120, 87, 0.8);
+        outline: none;
+        color: white;
+      }
+
+      .text-center {
+        text-align: center;
+      }
+      .text-left {
+        text-align: left;
+      }
+
+      @media (max-width: 600px) {
+        .container-custom {
+          padding: 2rem 1.5rem;
+        }
+
+        .btn-custom {
+          max-width: 100%;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container container-custom mt-3">
+      <h1>Resume Screening AI Base System</h1>
+      <p>
+        This system supports <strong>TXT</strong> and
+        <strong>PDF</strong> files, to be uploaded and it will work on the
+        following:
+      </p>
+      <ul>
+        <li>Resume Categorization</li>
+        <li>Resume Parsing (Information Extraction)</li>
+      </ul>
+    </div>
+
+    <div class="container container-custom">
+      <h2>Upload Your Resume</h2>
+
+      <form
+        action="/pred"
+        method="post"
+        enctype="multipart/form-data"
+        id="upload-form"
+      >
+        <div class="position-relative mb-4">
+          <input
+            type="file"
+            class="form-control"
+            id="resumeFile"
+            name="resume"
+            accept=".pdf,.txt"
+            required
+          />
+          <label for="resumeFile" class="custom-file-label" id="file-label"
+            >Choose your resume file</label
+          >
+        </div>
+        <input type="submit" class="btn btn-custom" value="Submit" />
+      </form>
+
+      {% if message %}
+      <p class="text-center mt-3">{{ message }}</p>
+      {% endif %} {% if predicted_category %}
+      <hr class="my-4" />
+      <p class="text-center">
+        <strong>Category:</strong> {{ predicted_category }}
+      </p>
+      <!-- job recommendation output removed -->
+
+      <hr class="my-4" />
+      <h1 class="text-center">Extracted Information</h1>
+      <div class="text-left px-4">
+        <p><strong>Name:</strong> {{ name }}</p>
+        <p><strong>Phone No:</strong> {{ phone }}</p>
+        <p><strong>Email:</strong> {{ email }}</p>
+      </div>
+      <br />
+
+      {% if extracted_skills %}
+      <h2 class="text-center">Skills</h2>
+      <ul class="list-unstyled text-center">
+        {% for skill in extracted_skills %}
+        <li>{{ skill }}</li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="text-center">No skills found.</p>
+      {% endif %} {% if extracted_education %}
+      <h2 class="text-center">Education</h2>
+      <ul class="list-unstyled text-center">
+        {% for edu in extracted_education %}
+        <li>{{ edu }}</li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="text-center">No education found.</p>
+      {% endif %} {% endif %}
+    </div>
+
+    <!-- Bootstrap JS bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      const fileInput = document.getElementById("resumeFile");
+      const fileLabel = document.getElementById("file-label");
+      fileInput.addEventListener("change", function () {
+        if (this.files && this.files.length > 0) {
+          fileLabel.textContent = this.files[0].name;
+        } else {
+          fileLabel.textContent = "Choose your resume file";
+        }
+      });
+    </script>
+  </body>
+</html>
