@@ -1,5 +1,6 @@
 #Resume Parser
-
+Contributor:  Ram Krishna Ghimire (20)
+              Nishchal Raj Subedi (54)
 Datasets: https://www.kaggle.com/datasets/noorsaeed/resume-datasets
 Google Collab NOtebook:   https://colab.research.google.com/drive/1hkGN8yAhQHy5Sqwad27zhLlhuEBIpt8w?usp=sharing
 
