@@ -1,6 +1,4 @@
-# Resume-Screening-with-Machine-Learning-Job-Recommendations-Parsing-Categorization
-
-blog post: https://medium.com/@611noorsaeed/building-resume-screening-app-resume-screening-with-machine-learning-job-recommendations-b1adc6b15cad
+#Resume Parser
 
 Datasets: https://www.kaggle.com/datasets/noorsaeed/resume-datasets
 
